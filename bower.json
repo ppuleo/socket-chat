@@ -16,12 +16,12 @@
     "tests"
   ],
   "dependencies": {
-    "angular": "latest",
-    "angular-resource": "latest",
-    "angular-animate": "latest",
-    "angular-route": "latest",
-    "angular-sanitize": "latest",
-    "angular-cookies": "latest",
+    "angular": "1.2.4",
+    "angular-resource": "1.2.4",
+    "angular-animate": "1.2.4",
+    "angular-route": "1.2.4",
+    "angular-sanitize": "1.2.4",
+    "angular-cookies": "1.2.4",
     "foundation": "latest",
     "fastclick": "latest"
   }
