@@ -1,10 +1,10 @@
 {
-  "name": "mean-seed",
+  "name": "socket-chat",
   "version": "0.0.0",
   "authors": [
     "Phil Puleo <puleo.phil@gmail.com>"
   ],
-  "description": "A seed project for building web applications with mongoDB, express, angularJS, and node.js.",
+  "description": "Real-time chats",
   "license": "MIT",
   "private": true,
   "ignore": [
@@ -16,12 +16,12 @@
     "tests"
   ],
   "dependencies": {
-    "angular": "1.2.4",
-    "angular-resource": "1.2.4",
-    "angular-animate": "1.2.4",
-    "angular-route": "1.2.4",
-    "angular-sanitize": "1.2.4",
-    "angular-cookies": "1.2.4",
+    "angular": "latest",
+    "angular-resource": "latest",
+    "angular-animate": "latest",
+    "angular-route": "latest",
+    "angular-sanitize": "latest",
+    "angular-cookies": "latest",
     "foundation": "latest",
     "fastclick": "latest"
   }

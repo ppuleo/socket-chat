@@ -66,6 +66,11 @@ angular.module('myApp', [
             controller: 'AdminCtrl',
             access: 'private'
         })
+        .when('/chat/:id', {
+            templateUrl: 'pages/chat.html',
+            controller: 'ChatCtrl',
+            access: 'private'
+        })
         .when('/confirm/:id', {
             templateUrl: 'pages/confirm.html',
             controller: 'ConfirmCtrl',

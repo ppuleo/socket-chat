@@ -1,7 +1,7 @@
 {
-  "name": "mean-seed",
-  "subdomain": "mean-seed",
-  "description": "A seed project for building RESTful apps with node, mongo, express, and angular",
+  "name": "socket-chat",
+  "subdomain": "socket-chat",
+  "description": "Real-time chat",
   "scripts": {
     "start": "node server/server.js"
   },
@@ -24,7 +24,9 @@
     "ejs": "latest",
     "nodemailer": "latest",
     "hat": "latest",
-    "connect-mongo": "latest"
+    "connect-mongo": "latest",
+    "socket.io": "latest",
+    "passport.socketio": "latest"
   },
   "devDependencies": {
     "grunt": "latest",

@@ -46,7 +46,7 @@ angular.module('myApp.controllers', [])
 /**
  * Application Controller
  */
-.controller('AppCtrl', ['$scope', '$route', '$timeout', '$window', '$q', '$http', 'appState', 'People', function ($scope, $route, $timeout, $window, $q, $http, appState, People) {
+.controller('AppCtrl', ['$scope', '$route', '$timeout', '$window', '$q', '$http', 'appState', 'People', 'socket', function ($scope, $route, $timeout, $window, $q, $http, appState, People, socket) {
 
     'use strict';
 
@@ -73,6 +73,11 @@ angular.module('myApp.controllers', [])
         if (typeof(appState.user) === 'undefined') {
 
             $scope.appState.user = $window.myApp.user;
+        }
+
+        // If the user is already authenticated, announce login
+        if ($scope.appState.user.authenticated) {
+            $scope.createSocketSession();
         }
 
         // Automatically hide 'banner style' system messages after 2 seconds.
@@ -132,11 +137,20 @@ angular.module('myApp.controllers', [])
         $http.get('/logout')
 
             .success(function (data, status) {
+
+                socket.emit('offline', {
+                    id: $scope.appState.user._id.toString(),
+                    name: $scope.appState.user.name.full
+                });
+
                 delete $window.myApp.user;
                 delete $scope.appState.user;
+
                 $window.myApp.user = {
                     authenticated: false
                 };
+                $scope.appState.user = $window.myApp.user;
+
                 $scope.go('/home', 'crossFade');
                 $scope.appState.message = {
                     active: true,
@@ -157,8 +171,110 @@ angular.module('myApp.controllers', [])
             });
     };
 
+    // Set up socket for this login
+    $scope.createSocketSession = function () {
+
+        socket.connect();
+        socket.emit('online', {
+            id: $scope.appState.user._id.toString(),
+            name: $scope.appState.user.name.full
+        });
+
+        // Watch for users coming and going
+        socket.on('online', function (data) {
+
+            appState.message = {
+                active: true,
+                type: 'banner',
+                title: 'chat',
+                body: data.name + ' is now online'
+            };
+        });
+
+        socket.on('offline', function (data) {
+            appState.message = {
+                active: true,
+                type: 'banner',
+                title: 'chat',
+                body: data.name + ' is now offline'
+            };
+        });
+
+    };
+
     // Initialize the app
     loadApp();
+}])
+
+/**
+ * Chat Page Controller
+ */
+.controller('ChatCtrl', ['$scope', 'People', '$routeParams', 'socket', 'appState', function ($scope, People, $routeParams, socket, appState) {
+
+    'use strict';
+
+    $scope.message = {
+        text: ''
+    };
+
+    $scope.chat = {
+        messages: []
+    };
+
+    $scope.myId = appState.user._id.toString();
+
+    // Private Methods
+    function loadPartner() {
+        People.get({personId: $routeParams.id},
+
+            // Sucess
+            function (response) {
+
+                $scope.person = response;
+            },
+
+            // Failure
+            function (response) {
+                $scope.appState.message = {
+                    active: true,
+                    title: 'Error',
+                    body: response.data.message
+                };
+            }
+        );
+    }
+
+    function createMessage(text) {
+        return {
+            date: Date.now(),
+            name: appState.user.name.full,
+            from: appState.user._id.toString(),
+            to: $routeParams.id.toString(),
+            text: text
+        };
+    }
+
+    socket.on('send:message', function (message) {
+
+        if (message.from === $routeParams.id.toString()) {
+            $scope.chat.messages.push(message);
+        }
+    });
+
+    // Public Methods
+    $scope.sendMessage = function () {
+
+        var newMessage = createMessage($scope.message.text);
+
+        socket.emit('send:message', newMessage);
+
+        $scope.chat.messages.push(newMessage);
+
+        $scope.message.text = '';
+    };
+
+    loadPartner();
+
 }])
 
 /**
@@ -245,6 +361,9 @@ angular.module('myApp.controllers', [])
     };
 }])
 
+/**
+ * Home Page Controller
+ */
 .controller('HomeCtrl', ['$scope', '$http', function ($scope, $http) {
 
     'use strict';
@@ -273,7 +392,7 @@ angular.module('myApp.controllers', [])
 /**
  * Login Page Controller
  */
-.controller('LoginCtrl', ['$scope', '$http', '$window', '$sce', function ($scope, $http, $window, $sce) {
+.controller('LoginCtrl', ['$scope', '$http', '$window', '$sce', 'socket', function ($scope, $http, $window, $sce, socket) {
 
     'use strict';
 
@@ -296,9 +415,12 @@ angular.module('myApp.controllers', [])
                     $scope.appState.message = {
                         active: false
                     };
-                    $window.myApp.user.authenticated = true;
+                    $window.myApp.user.authenticated = true; // TODO: why do we care?
                     $scope.appState.user = data;
                     $scope.appState.user.authenticated = true;
+
+                    $scope.createSocketSession();
+
                     $scope.go('/main', 'crossFade');
                 })
 
@@ -328,15 +450,39 @@ angular.module('myApp.controllers', [])
 /**
  * Main Page Controller
  */
-.controller('MainCtrl', ['$scope', function ($scope) {
+.controller('MainCtrl', ['$scope', 'People', 'appState', function ($scope, People, appState) {
 
     'use strict';
 
     if ($scope.appState.debug) { console.log('*** MainCtrl: Init ***'); }
 
-    $scope.$on('viewContentLoaded', function () {
-        console.log('view loaded');
-    });
+    function loadPeople() {
+
+        // Populate the list of people
+        People.query(
+
+            // Sucess
+            function (response) {
+                for (var i = 0; i < response.length; i++) {
+                    if (response[i].id.toString() === appState.user._id.toString()) {
+                        response.splice(i, 1);
+                    }
+                }
+                $scope.people = response;
+            },
+
+            // Failure
+            function (response) {
+                $scope.appState.message = {
+                    active: true,
+                    title: 'Error',
+                    body: response.data.message
+                };
+            }
+        );
+    }
+
+    loadPeople();
 }])
 
 /**

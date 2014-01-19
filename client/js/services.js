@@ -19,6 +19,40 @@ angular.module('myApp.services', [])
     });
 }])
 
+.factory('socket', ['$rootScope', function ($rootScope) {
+
+    'use strict';
+
+   //var socket = io.connect();
+
+    return {
+        socket: {},
+        connect: function () {
+            this.socket = io.connect();
+        },
+        on: function (eventName, callback) {
+            var self = this;
+            this.socket.on(eventName, function () {
+                var args = arguments;
+                $rootScope.$apply(function () {
+                    callback.apply(self.socket, args);
+                });
+            });
+        },
+        emit: function (eventName, data, callback) {
+            var self = this;
+            this.socket.emit(eventName, data, function () {
+                var args = arguments;
+                $rootScope.$apply(function () {
+                    if (callback) {
+                        callback.apply(self.socket, args);
+                    }
+                });
+            });
+        }
+    };
+}])
+
 /**
  * The App State Service provides a global state object for UI coordination.
  */

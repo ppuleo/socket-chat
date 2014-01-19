@@ -7,6 +7,7 @@
 var express = require('express');
 var fs = require('fs');
 var passport = require('passport');
+var io = require('socket.io');
 
 // Define the environment based on arguments passed in the server task
 var env = process.env.NODE_ENV || 'development';
@@ -62,7 +63,11 @@ require('./app/routes/people')(app, auth, mailer);
 
 // Init the app
 var port = 9000;
-app.listen(port);
+var io = require('socket.io').listen(app.listen(port));
+
+// Require the sockets
+require('./app/sockets/sockets')(io, app, envConfig);
+
 console.log('App started on port ' + port + '. Waiting...');
 
 // Expose App

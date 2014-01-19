@@ -1,0 +1,53 @@
+<div class="page chat-page">
+
+    <section class="page-content">
+
+        <h1>Chat with {{person.name.full}}</h1>
+
+        <div class="row">
+
+            <div class="columns small-10 small-offset-1">
+
+                <ul class="message-list">
+                    <li ng-repeat="message in chat.messages" class="chat-message popIn" ng-class="{mine: message.from==myId}">
+                        <label>{{message.date | date:"EEEE MMMM d, yyyy hh:mm:ss a"}}</label>
+                        <span class="chat-message-text" ng-bind="message.text"></span>
+                    </li>
+                </ul>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <section class="controls">
+
+        <div class="row">
+
+            <div class="columns small-10 small-offset-1">
+
+                <!-- Chat Form -->
+                <form name="chatForm" ng-submit="sendMessage()" novalidate>
+
+                    <div class="form-item">
+
+                        <input type="text" placeholder="type a message" ng-model="message.text" />
+
+                        <button
+                            type="submit"
+                            value="submit"
+                            class="form-btn"
+                            ng-disabled="!chatForm.$valid"
+                         >Send</button>
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</div>

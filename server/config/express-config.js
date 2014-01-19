@@ -14,11 +14,14 @@ module.exports = function (app, envConfig, passport) {
 
     // Show stack errors
     app.set('showStackError', true);
+    app.set('sessionStore', new MongoStore(envConfig.sessionStore, function () {
+            console.log('Express session connection open');
+        }));
 
     // Should be placed before express.static
     // Compress response data with gzip/deflate
     app.use(express.compress({
-        filter: function(req, res) {
+        filter: function (req, res) {
             return (/json|text|javascript|css/).test(res.getHeader('Content-Type'));
         },
         level: 9
@@ -42,7 +45,7 @@ module.exports = function (app, envConfig, passport) {
         app.use(express.session({
             key: 'mean.sid', // TODO: Add your desired key here
             cookie: {path: '/', httpOnly: true, maxAge: null},
-            store: new MongoStore(envConfig.sessionStore),
+            store: app.get('sessionStore'),
             secret: 'spicy lamb vindaloo' // TODO: Add your desired secret here
         }));
 
