@@ -77,34 +77,40 @@ module.exports = function (app, auth, mailer) {
      */
     app.get('/people/:id', auth.requiresLogin, function (req, res) {
 
-        return People.findById(req.params.id, 'name name.full avatar email role language').exec(function (err, result) {
+        // Admins
+        if (req.params.id.toString() === req.user._id.toString() || req.user.role === 'admin') {
 
-            // Successful query
-            if (!err) {
+            return People.findById(req.params.id, 'name name.full avatar email role language').exec(function (err, result) {
 
-                if (result !== null) {
+                // Successful query
+                if (!err) {
 
-                    // Admin or self-lookup (only expose the complete person object to the owner or an admin)
-                    if (result._id.toString() === req.user._id.toString() || req.user.role === 'admin') {
-
-                        return res.send(result);
-                    }
-
-                    // Access denied
-                    else {
-                        return res.send(401, {message: 'Access error: Access denied. Your account does not have permission to access this person.'});
-                    }
+                    return res.send(result);
                 }
+
+                // Error
                 else {
-                    res.send({});
+                    return res.send(500, {message: 'Server error: ' + err});
                 }
-            }
+            });
+        }
 
-            // Error
-            else {
-                return res.send(500, {message: 'Server error: ' + err});
-            }
-        });
+        // Everyone else
+        else {
+            return People.findById(req.params.id, 'name name.full avatar').exec(function (err, result) {
+
+                // Successful query
+                if (!err) {
+
+                    return res.send(result);
+                }
+
+                // Error
+                else {
+                    return res.send(500, {message: 'Server error: ' + err});
+                }
+            });
+        }
     });
 
 
