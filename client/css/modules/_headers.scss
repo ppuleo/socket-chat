@@ -6,6 +6,10 @@
     color: #FFF;
 }
 
+.header-container a:hover {
+    text-decoration: none;
+}
+
 .header-container a.menu-icon {
     text-indent: 2.1875rem;
     width: 2.8125rem;
@@ -22,6 +26,34 @@
     font-family: 'Helvetica Neue', Helvetica, Helvetica, Arial, sans-serif;
 }
 
+ .header-container .top-bar {
+     background-color: transparent;
+ }
+
+.header-container .top-bar-section ul {
+     background-color: rgba(0,0,0,0.5);
+ }
+
+.header-container .top-bar-section .has-form {
+     background-color: transparent;
+ }
+
 .header-container nav.tab-bar h1 a:hover {
+    text-decoration: none;
+}
+
+.top-bar-section li:not(.has-form) a:not(.button) {
+    background-color: transparent;
+}
+
+.header-container ul li.login-btn > a.button {
+
+    border: 1px solid #777;
+    background-color: transparent;
+}
+
+.header-container ul li.login-btn > a.button:hover,
+.header-container ul li.login-btn > a.button:active {
+    background-color: rgba(255,255,255,0.2);
     text-decoration: none;
 }

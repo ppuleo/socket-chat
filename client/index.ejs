@@ -31,11 +31,22 @@
     <!-- Off-canvas wrapper -->
     <div class="off-canvas" ng-class="{uncover: appState.menu.isVisible}">
 
+        <!-- Blur background -->
+        <div class="blur-bg" ng-cloak ng-show="appState.blur"></div>
+
         <!-- Header -->
         <div ng-include="'views/header.html'"></div>
 
         <!-- Page Container -->
         <div class="pages-container">
+
+            <!-- pulsars -->
+            <div class="pulsars" ng-show="!appState.blur">
+                <div ng-include="'views/pulsar.html'" class="pulsar pulsar1"></div>
+                <div ng-include="'views/pulsar.html'" class="pulsar pulsar2"></div>
+                <div ng-include="'views/pulsar.html'" class="pulsar pulsar3"></div>
+            </div>
+
             <div ng-view class="page-wrapper" ng-class="pageAnimationClass"></div>
         </div>
 

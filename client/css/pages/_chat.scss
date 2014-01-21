@@ -1,33 +1,58 @@
-.chat-page {
+.chat-page-outer {
+    height: 100%;
+    padding-bottom: 7.5rem;
     position: relative;
 }
 
-.chat-page form input,
-.chat-page form button {
+.chat-page-outer h1 {
+    text-align: center;
+}
+
+.chat-page-outer form input,
+.chat-page-outer form button {
     display: inline-block;
 }
 
-.chat-page .controls {
+.chat-page-outer .controls {
     position: absolute;
     bottom: 0;
     width: 100%;
+    text-align: center;
 }
 
-.chat-page form input[type="text"] {
+.chat-page-outer form input[type="text"] {
     width: 70%;
     margin: 0 0 1.25rem;
     font-size: 1rem;
-    padding: 1.0625rem 2rem 1rem;
+    padding: 1.0625rem 1rem 1rem;
     height: auto;
 }
 
-.chat-page ul {
+.chat-page {
+    position: relative;
+    height: inherit;
+}
+
+.chat-page .page-content {
+
+}
+
+.chat-page .chat-container {
+
+}
+
+.chat-page .chat-scroll {
+    height: 100%;
+}
+
+.chat-page ul.message-list {
     list-style: none;
 }
 
 .chat-page .chat-message {
     margin: .5rem 4rem 1.3rem 0;
     font-size: 1.3rem;
+    color: #FFF;
 }
 
 .chat-page .chat-message.mine {
@@ -35,13 +60,13 @@
 }
 
 .chat-page .chat-message-text {
-    background-color: #EEE;
+    background-color: rgba(0,0,0,0.2);
     padding: 1rem;
     display: block;
 }
 
 .chat-page .chat-message.mine .chat-message-text {
-    background-color: #b6edff;
+    background-color: rgba(0, 140, 186, 0.2);
 }
 
 .chat-page .chat-message label {

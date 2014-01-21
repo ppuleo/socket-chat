@@ -93,6 +93,8 @@ angular.module('myApp.controllers', [])
         $window.addEventListener('load', function () {
             FastClick.attach(document.body);
         }, false);
+
+        appState.blur = false;
     }
 
 
@@ -213,12 +215,14 @@ angular.module('myApp.controllers', [])
 
     'use strict';
 
+    appState.blur = false;
+
     $scope.message = {
         text: ''
     };
 
     $scope.chat = {
-        messages: []
+        messages: [],
     };
 
     $scope.myId = appState.user._id.toString();
@@ -364,9 +368,11 @@ angular.module('myApp.controllers', [])
 /**
  * Home Page Controller
  */
-.controller('HomeCtrl', ['$scope', '$http', function ($scope, $http) {
+.controller('HomeCtrl', ['$scope', '$http', 'appState', function ($scope, $http, appState) {
 
     'use strict';
+
+    appState.blur = false;
 
     function getLatestCommit() {
 
@@ -392,11 +398,13 @@ angular.module('myApp.controllers', [])
 /**
  * Login Page Controller
  */
-.controller('LoginCtrl', ['$scope', '$http', '$window', '$sce', 'socket', function ($scope, $http, $window, $sce, socket) {
+.controller('LoginCtrl', ['$scope', '$http', '$window', '$sce', 'socket', 'appState', function ($scope, $http, $window, $sce, socket, appState) {
 
     'use strict';
 
     if ($scope.appState.debug) { console.log('*** LoginCtrl: Init ***'); }
+
+    appState.blur = true;
 
     $scope.login = function () {
 
@@ -735,6 +743,8 @@ angular.module('myApp.controllers', [])
 
     $scope.newAccount = {};
     $scope.focusField = '';
+
+    appState.blur = true;
 
     // Create a person
     $scope.createAccount = function () {

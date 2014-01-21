@@ -9,15 +9,18 @@
 .main-page ul.person-list li {
     margin: .5rem 0;
     font-size: 2rem;
-    font-weight: 100;
+    font-weight: 300;
 }
 
 .main-page ul.person-list li a {
     display: block;
+    background-color: transparent;
+    border: 1px solid rgba(255,255,255,0.4);
+    color: #FFF;
 }
 
 .main-page ul.person-list li a:hover {
-    background-color: #FFF;
+    background-color: rgba(255,255,255,0.2);
     text-decoration: none;
 }
 
@@ -28,4 +31,5 @@
     width: auto;
     display: inline-block;
     margin: 0 1rem 0 0;
+    opacity: 0.5;
 }

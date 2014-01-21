@@ -15,12 +15,12 @@
 
         <section class="top-bar-section">
             <ul class="right">
-                <li class="divider"></li>
-                <li>
+
+                <li ng-if="appState.user.authenticated">
                     <a href="#/main" class="">Chat</a>
                 </li>
-                <li class="divider"></li>
-                <li ng-if="!appState.user.authenticated" class="has-form">
+
+                <li ng-if="!appState.user.authenticated" class="has-form login-btn">
                     <a ng-click="go('/login', 'crossFade')" class="small button">login</a>
                 </li>
                 <li ng-if="appState.user.authenticated" class="has-dropdown not-click">

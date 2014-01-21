@@ -12,38 +12,13 @@
             </div>
             <div class="row" ng-hide="appState.user.authenticated">
                 <div class="medium-6 large-5 columns">
-                    <a ng-click="go('/signup')" class="large button">Sign up and try it!</a>
+                    <a ng-click="go('/signup', 'slideLeft')" class="large button">Sign up free</a>
                 </div>
             </div>
             <div class="row" ng-hide="!appState.user.authenticated">
                 <div class="medium-6 large-5 columns">
                     <a ng-click="go('/main')" class="large button">Chat Now</a>
                 </div>
-            </div>
-            <div class="hide-for-small hero-image">
-                <img alt="mean-seed-mascot" src="/assets/img/mean-seed-hero-new.svg" />
-            </div>
-
-        </section>
-
-        <section class="homepage-gitinfo hide-for-small">
-            <div class="row">
-                <div class="columns small-12">
-                    &nbsp;</a>
-                </div>
-            </div>
-        </section>
-
-        <section class="homepage-content">
-
-            <div class="row">
-
-                <div class="columns small-8 small-offset-2">
-                    <h2>A test chat application using socket.io</h2>
-
-                    <div><p>Socket Chat is an experiment in using socket.io with the MEAN Stack to create a one-to-one chat app including socket session security with passport.js. </p><p>TODO: contact management, a single view for chat and contacts, proper socket disconnection on logout, etc.</p></div>
-                </div>
-
             </div>
 
         </section>

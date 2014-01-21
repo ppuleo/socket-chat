@@ -1,25 +1,33 @@
-<div class="page chat-page">
+<div class="chat-page-outer">
 
-    <section class="page-content">
+    <div class="page chat-page">
 
         <h1>Chat with {{person.name.full}}</h1>
 
-        <div class="row">
+        <section class="page-content">
 
-            <div class="columns small-10 small-offset-1">
+            <div class="row chat-container">
 
-                <ul class="message-list">
-                    <li ng-repeat="message in chat.messages" class="chat-message popIn" ng-class="{mine: message.from==myId}">
-                        <label>{{message.date | date:"EEEE MMMM d, yyyy hh:mm:ss a"}}</label>
-                        <span class="chat-message-text" ng-bind="message.text"></span>
-                    </li>
-                </ul>
+                <div class="columns small-10 small-offset-1 chat-scroll">
+
+                    <ul class="message-list" >
+                        <li
+                            ng-repeat="message in chat.messages"
+                            class="chat-message popIn"
+                            ng-class="{mine: message.from==myId}"
+                        >
+                            <label>{{message.date | date:"EEEE MMMM d, yyyy hh:mm:ss a"}}</label>
+                            <span class="chat-message-text" ng-bind="message.text"></span>
+                        </li>
+                    </ul>
+
+                </div>
 
             </div>
 
-        </div>
+        </section>
 
-    </section>
+    </div>
 
     <section class="controls">
 
@@ -30,7 +38,7 @@
                 <!-- Chat Form -->
                 <form name="chatForm" ng-submit="sendMessage()" novalidate>
 
-                    <div class="form-item">
+                    <div>
 
                         <input type="text" placeholder="type a message" ng-model="message.text" />
 
