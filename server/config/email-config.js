@@ -25,7 +25,7 @@ module.exports = {
 
         var subject = 'Confirm your account';
 
-        var body = 'Hello, you signed up for [appname]';
+        var body = 'Hello, you signed up for socket-chat';
         body += '\n\nClick the link below to confirm you own this email address.';
         body += '\n\n' + resetUrl;
 
@@ -40,7 +40,7 @@ module.exports = {
 
         var subject = 'Reset your password';
 
-        var body = 'Hello, we received a request to send you a link to reset your password for [appname]';
+        var body = 'Hello, we received a request to send you a link to reset your password for socket-chat';
         body += '\n\nIf you made this request, click the link below to reset your password.';
         body += 'The link is active for the next 24 hours. If you did not request a password reset, please ignore this email.';
         body += '\n\n' + resetUrl;
