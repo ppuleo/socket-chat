@@ -2,6 +2,7 @@
   "name": "socket-chat",
   "subdomain": "socket-chat",
   "description": "Real-time chat",
+  "main": "node server/server.js",
   "scripts": {
     "start": "node server/server.js"
   },

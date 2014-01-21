@@ -62,13 +62,13 @@ require('./app/routes/people')(app, auth, mailer);
 // Add more routes here...
 
 // Init the app
-var port = 9000;
-var io = require('socket.io').listen(app.listen(port));
+
+var io = require('socket.io').listen(app.listen(envConfig.port));
 
 // Require the sockets
 require('./app/sockets/sockets')(io, app, envConfig);
 
-console.log('App started on port ' + port + '. Waiting...');
+console.log('App started on port ' + envConfig.port + '. Waiting...');
 
 // Expose App
 module.exports = app;
